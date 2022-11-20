@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Redirect</title>
+
+</head>
+
+<body>
+    <div class="message"></div>
+    <script>
+        const apps = {
+            Android: 'de.netid.mobile.sdk.netidmobilesdk',
+            iOS: 'https://www.apple.com/store',
+            other: 'de.netid.mobile.sdk.netidmobilesdk://'
+        };
+
+        const platform = () => {
+            let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            console.log(userAgent);
+            if (/android/i.test(userAgent)) return 'Android';
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) return 'iOS';
+            return 'other';
+        };
+
+        const redirect = () => {
+            let os = platform();
+            let redirectURI = apps[os] + 'redirect' + document.location.search
+            if (os in apps) {
+                location.replace(redirectURI);
+            } else {
+                const message = document.querySelector('.message');
+                message.innerText = 'Your OS is not supported';
+            }
+        };
+
+        redirect();
+    </script>
+</body>
+
+</html>
