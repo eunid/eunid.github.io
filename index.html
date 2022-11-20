@@ -29,6 +29,7 @@
             let os = platform();
             let redirectURI = apps[os] + 'redirect' + document.location.search
             if (os in apps) {
+                console.log(redirectURI)
                 location.replace(redirectURI);
             } else {
                 const message = document.querySelector('.message');
