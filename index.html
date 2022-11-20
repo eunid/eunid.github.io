@@ -30,7 +30,7 @@
             let redirectURI = apps[os] + 'redirect' + document.location.search
             if (os in apps) {
                 console.log(redirectURI)
-                location.replace(redirectURI);
+                //location.replace(redirectURI);
             } else {
                 const message = document.querySelector('.message');
                 message.innerText = 'Your OS is not supported';
@@ -39,6 +39,7 @@
 
         redirect();
     </script>
+    <a href="de.netid.mobile.sdk.netidmobilesdk://'">Get me back</a>
 </body>
 
 </html>
