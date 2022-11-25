@@ -30,11 +30,11 @@
         const redirect = () => {
             let os = platform();
             let redirectURI = apps[os] + document.location.search
-            let androidLink = document.getElementById('backlink')
+            let appLink = document.getElementById('backlink')
         
             if (os in apps) {
                 console.log(redirectURI)
-                androidLink.setAttribute('href',redirectURI)
+                appLink.setAttribute('href',redirectURI)
             } else {
                 const message = document.querySelector('.message');
                 message.innerText = 'Your OS is not supported';
