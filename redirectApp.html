@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Redirect</title>
+  
+</head>
+
+<body>
+    <div class="message"></div>
+    <a href="index.html" id="backlink">Get me back - HTTPs</a> <br> <br>
+    <a href="index.html" id="backlink2">Get me back - HTTPs - Other Path</a> <br> <br>
+
+    <script>
+        const apps = {
+            Android: 'https://eunid.github.io/redirectApp',
+            iOS: 'https://eunid.github.io/redirectApp',
+            other: 'https://eunid.github.io/redirectApp'
+        };
+
+        const platform = () => {
+            let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            console.log(userAgent);
+            if (/android/i.test(userAgent)) return 'Android';
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) return 'iOS';
+            return 'other';
+        };
+
+        const redirect = () => {
+            let os = platform();
+            let redirectURI = apps[os] + document.location.search
+            let redirectURI2 = 'https://eunid.github.io/redirectFallback' + document.location.search
+            let appLink = document.getElementById('backlink')
+            let appLink2 = document.getElementById('backlink2')
+        
+            if (os in apps) {
+                console.log(redirectURI)
+                console.log(redirectURI2)
+                appLink.setAttribute('href',redirectURI)
+                appLink2.setAttribute('href',redirectURI2)
+            } else {
+                const message = document.querySelector('.message');
+                message.innerText = 'Your OS is not supported';
+            }
+        };
+        redirect();
+    </script>
+</body>
+
+</html>
