@@ -39,12 +39,15 @@
             let os = platform();
             let appLink = document.getElementById('backlink')
             let appLink2 = document.getElementById('backlink2')
+            let errorDetail = document.getElementById('errorDetail');
             let redirectURI, redirectURI2
+
+            errorDetail.innerText = 'User-Agent :' + os;
 
             if(platform == 'Android'){
                 redirectURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
                 redirectURI2 = 'de.netid.sdk://redirect/redirectApp' + document.location.search
-            }else if (platform =='iOS'){
+            }else if (platform == 'iOS'){
                 console.log(os);
                 redirectURI = 'https://eunid.github.io/redirectApp' + document.location.search
             } else {
@@ -66,7 +69,7 @@
         if(error != null){
             //do something meaningfull (i.e. change page)
             heading.textContent = 'Authorization Error'
-            errorDetail.innerHTML = error
+            errorDetail.innerHTML = errorDetail.innerText + error
         } else {
             //do something meaningfull (i.e. change page)
             heading.textContent = 'Authorization SuccessFull'
