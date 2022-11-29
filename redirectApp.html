@@ -37,28 +37,31 @@
 
         const redirect = () => {
             let os = platform();
-            let appLink = document.getElementById('backlink')
-            let appLink2 = document.getElementById('backlink2')
+            let httpsLink = document.getElementById('backlink')
+            let customSchemeLink = document.getElementById('backlink2')
             let errorDetail = document.getElementById('errorDetail');
-            let redirectURI, redirectURI2
+            let httpsURI, customSchemeURI
 
             errorDetail.innerText = 'User-Agent: ' + os;
 
             if(os == 'Android'){
-                redirectURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
-                redirectURI2 = 'de.netid.sdk://redirect/redirectApp' + document.location.search
+                console.log(os);
+                httpsURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
+                customSchemeURI = 'de.netid.sdk://redirect/redirectApp' + document.location.search
             }else if (os == 'iOS'){
                 console.log(os);
-                redirectURI = 'https://developerzone.netid.dev/redirectApp' + document.location.search
+                httpsURI = 'https://developerzone.netid.dev/redirectApp' + document.location.search
+                //hide second option
+                customSchemeLink.style.display = 'none'
             } else {
                 console.log(os);
-                redirectURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
-                redirectURI2 = 'de.netid.sdk://redirect/redirectApp' + document.location.search
+                httpsURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
+                customSchemeURI = 'de.netid.sdk://redirect/redirectApp' + document.location.search
             }
-            console.log(redirectURI)
-            console.log(redirectURI2)
-            appLink.setAttribute('href',redirectURI)
-            appLink2.setAttribute('href',redirectURI2)
+            console.log(httpsURI)
+            console.log(customSchemeURI)
+            httpsLink.setAttribute('href',httpsURI)
+            customSchemeLink.setAttribute('href',customSchemeURI)
         };
 
         let error = getError();
