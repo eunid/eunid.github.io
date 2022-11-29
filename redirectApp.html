@@ -35,7 +35,7 @@
             return null
         };
 
-        const redirect = () => {
+        const createLinks = () => {
             let os = platform();
             let httpsLink = document.getElementById('backlink')
             let customSchemeLink = document.getElementById('backlink2')
@@ -67,6 +67,9 @@
         let error = getError();
         let heading = document.getElementById('heading');
         let errorDetail = document.getElementById('errorDetail');
+
+        //create options to return to app
+        createLinks();
         
         //Flow repsonded with an error 
         if(error != null){
@@ -78,8 +81,6 @@
             heading.textContent = 'Authorization SuccessFull'
             //errorDetail.innerHTML = error
         }
-        //create options to return to app
-        redirect();
     </script>
 </body>
 
