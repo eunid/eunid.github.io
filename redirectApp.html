@@ -46,6 +46,7 @@
                 redirectURI2 = 'de.netid.sdk://redirect/redirectApp' + document.location.search
             }else if (platform =='iOS'){
                 console.log(os);
+                redirectURI = 'https://eunid.github.io/redirectApp' + document.location.search
             } else {
                 console.log(os);
                 redirectURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
@@ -66,7 +67,11 @@
             //do something meaningfull (i.e. change page)
             heading.textContent = 'Authorization Error'
             errorDetail.innerHTML = error
-        } else if ()
+        } else {
+            //do something meaningfull (i.e. change page)
+            heading.textContent = 'Authorization SuccessFull'
+            //errorDetail.innerHTML = error
+        }
         //create options to return to app
         redirect();
     </script>
