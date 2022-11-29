@@ -42,12 +42,12 @@
             let errorDetail = document.getElementById('errorDetail');
             let redirectURI, redirectURI2
 
-            errorDetail.innerText = 'User-Agent :' + os;
+            errorDetail.innerText = 'User-Agent: ' + os;
 
-            if(platform == 'Android'){
+            if(os == 'Android'){
                 redirectURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
                 redirectURI2 = 'de.netid.sdk://redirect/redirectApp' + document.location.search
-            }else if (platform == 'iOS'){
+            }else if (os == 'iOS'){
                 console.log(os);
                 redirectURI = 'https://eunid.github.io/redirectApp' + document.location.search
             } else {
