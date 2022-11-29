@@ -75,7 +75,7 @@
         if(error != null){
             //do something meaningfull (i.e. change page)
             heading.textContent = 'Authorization Error'
-            errorDetail.innerHTML = errorDetail.innerHTML + error
+            errorDetail.innerHTML = error + ' | ' + errorDetail.innerHTML
         } else {
             //do something meaningfull (i.e. change page)
             heading.textContent = 'Authorization SuccessFull'
