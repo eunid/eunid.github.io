@@ -11,7 +11,7 @@
 <body>
     <div class="message"></div>
     <a href="index.html" id="backlink">Get me back - HTTPs</a> <br> <br>
-    <a href="index.html" id="backlink2">Get me back - HTTPs - Other Path</a> <br> <br>
+    <a href="index.html" id="backlink2">Get me back - Scheme</a> <br> <br>
 
     <script>
         const apps = {
@@ -30,8 +30,9 @@
 
         const redirect = () => {
             let os = platform();
-            let redirectURI = apps[os] + document.location.search
-            let redirectURI2 = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
+            //let redirectURI = apps[os] + document.location.search
+            let redirectURI = 'https://fallback.eunid.github.io/redirectApp' + document.location.search
+            let redirectURI2 = 'de.netid.sdk://redirect/redirectApp' + document.location.search
             let appLink = document.getElementById('backlink')
             let appLink2 = document.getElementById('backlink2')
         
