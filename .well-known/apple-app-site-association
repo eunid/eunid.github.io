@@ -12,6 +12,10 @@
                {
                   "/": "/redirect",
                   "comment": "Matches any URL with a path that starts with /redirect."
+               },
+               {
+                "/": "/redirectApp",
+                "comment": "Matches any URL with a path that starts with /redirect."
                }
              ]
            }
