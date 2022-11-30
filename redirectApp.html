@@ -74,7 +74,7 @@
             let query = document.location.search;
             let params = new URLSearchParams(query);
             if(params.has('state') && params.has('code')){
-                console.log(params.get('Redirect with state: ' + params.get('state') + ' and code: ' +params.get(code)))
+                console.log(params.get('Redirect with state: ' + params.get('state') + ' and code: ' + params.get('code')))
                 return true
             }
             return false
