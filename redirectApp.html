@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>interstitial Page</title>
-  
+    <title>Interstitial Page</title>
 </head>
-
 <body>
-    <h2 id="heading">Authorization Unknown</h2>
+    <h2 id="heading">Authorization Status Unknown</h2>
     <p id="errorDetail"></p>
     <p>Flow finished without user interaction - Return to App via the following options</p>
     <a href="index.html" id="backlink">Get me back - HTTPs</a> <br> <br>
     <a href="index.html" id="backlink2">Get me back - Scheme</a> <br> <br>
 
     <script>
+        //In real deployment this should be handled server-side idealy
         const platform = () => {
             let userAgent = navigator.userAgent || navigator.vendor || window.opera;
             console.log(userAgent);
@@ -44,15 +43,22 @@
 
             errorDetail.innerText = 'User-Agent: ' + os;
 
+            /*
+                https://developerzone.netid.dev/redirectApp will automatically redirect to the respective AppLink (Android) / Universal Link (iOS). This could also be another subdomain, but generally necessary given the browser won't trigger the Link to the App otherwise.
+            */
+            
+            // On Android both App Links and a Custom Scheme (with security downsides and pot. prompts) is feasible 
             if(os == 'Android'){
                 console.log(os);
                 httpsURI = 'https://developerzone.netid.dev/redirectApp' + document.location.search
                 customSchemeURI = 'de.netid.sdk://redirect/redirectApp' + document.location.search
+            // On iOS Universal Link is feasible. 
             }else if (os == 'iOS'){
                 console.log(os);
                 httpsURI = 'https://developerzone.netid.dev/redirectApp' + document.location.search
                 //hide second option
                 customSchemeLink.style.display = 'none'
+            // Just for testing porposes (Desktop etc.)
             } else {
                 console.log(os);
                 httpsURI = 'https://developerzone.netid.dev/redirectApp' + document.location.search
@@ -64,7 +70,18 @@
             customSchemeLink.setAttribute('href',customSchemeURI)
         };
 
+        const checkSuccess = () => {
+            let query = document.location.search;
+            let params = new URLSearchParams(query);
+            if(params.has('state') && params.has('code')){
+                console.log(params.get('Redirect with state: ' + params.get('state') + ' and code: ' +params.get(code)))
+                return true
+            }
+            return false
+        }
+
         let error = getError();
+        let success = checkSuccess();
         let heading = document.getElementById('heading');
         let errorDetail = document.getElementById('errorDetail');
 
@@ -73,14 +90,14 @@
         
         //Flow repsonded with an error 
         if(error != null){
-            //do something meaningfull (i.e. change page)
+            //do something meaningfull (i.e. change page) - mock
             heading.textContent = 'Authorization Error'
             errorDetail.innerHTML = error + ' | ' + errorDetail.innerHTML
-        } else {
-            //do something meaningfull (i.e. change page)
+        } else if (success) {
+            //do something meaningfull (i.e. change page) - mock
             heading.textContent = 'Authorization SuccessFull'
             //errorDetail.innerHTML = error
-        }
+        } // leave unknown instead (site simply opened witouth parameters)
     </script>
 </body>
 
