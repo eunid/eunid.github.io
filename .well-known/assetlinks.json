@@ -11,6 +11,18 @@
         "76:7C:D9:89:45:85:AC:48:F7:C6:D5:E2:F0:C1:47:CF:B5:4B:F8:41:BA:CB:67:F3:02:4F:50:6F:DF:14:71:2B"
       ]
     }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "de.netid.mobile.sdk.example.buttonapp",
+      "sha256_cert_fingerprints": [
+        "B7:2E:72:09:17:9C:7F:53:2A:30:3D:24:EA:53:9C:94:23:6E:F0:71:CB:0C:FC:48:A8:76:3B:68:1B:A1:01:80"
+      ]
+    }
   }
 ]
 
