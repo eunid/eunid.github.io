@@ -2,7 +2,7 @@
   "applinks": {
       "details": [
            {
-             "appIDs": [ "8G463Z6GPS.de.netid.mobile.sdk.NetIdMobileSdk-App" ],
+             "appIDs": [ "8G463Z6GPS.de.netid.mobile.sdk.NetIdMobileSdk-App", "8G463Z6GPS.de.netid.mobile.sdk.NetIdMobileSdk-ButtonApp" ],
              "components": [
                {
                   "#": "no_universal_links",
@@ -22,6 +22,6 @@
        ]
    },
    "webcredentials": {
-      "apps": [ "8G463Z6GPS.de.netid.mobile.sdk.NetIdMobileSdk-App" ]
+      "apps": [ "8G463Z6GPS.de.netid.mobile.sdk.NetIdMobileSdk-App", "8G463Z6GPS.de.netid.mobile.sdk.NetIdMobileSdk-ButtonApp" ]
    }
 }
