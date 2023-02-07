@@ -56,8 +56,6 @@
             }else if (os == 'iOS'){
                 console.log(os);
                 httpsURI = 'https://developerzone.netid.dev/redirectApp' + document.location.search
-                //hide second option
-                customSchemeLink.style.display = 'none'
             // Just for testing porposes (Desktop etc.)
             } else {
                 console.log(os);
@@ -68,6 +66,8 @@
             console.log(customSchemeURI)
             httpsLink.setAttribute('href',httpsURI)
             customSchemeLink.setAttribute('href',customSchemeURI)
+            //hide second option, not supported by SDK
+            customSchemeLink.style.display = 'none'
         };
 
         const checkSuccess = () => {
