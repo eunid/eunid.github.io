@@ -10,10 +10,14 @@
 <body>
     <h2 id="heading">Web2App Test</h2>
     <p id="errorDetail"></p>
-    <div>
+    <div id="loginform">
         <label for="email">Account:</label>
         <input type="email" id="email" name="email">
         <button id="authButton">Login mit netID</button>
+    </div>
+    <div id="loggedInForm">
+        <label for="resetButton">Status zurücksetzen:</label>
+        <button id="resetButton">Reset</button>
     </div>
     </form>
     <script>
@@ -56,21 +60,19 @@
             let httpsLink = document.getElementById('auth')
 
             // Simply hardcoded, given this is just for technical testing
-            let authURIGMX = 'https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            let authURIGMX = 'https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
             // Simply hardcoded, given this is just for technical testing
-            let authURIWEB = 'https://sso.web.de/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
-            let authURIBroker = 'https://broker.netID.de/authorize?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            let authURIWEB = 'https://sso.web.de/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
+            let authURIBroker = 'https://broker.netID.de/authorize?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
 
             if (getDomain == 'gmx.net') {
                 window.open(authURIGMX, '_self');
             } else if (getDomain == 'web.de') {
                 window.open(authURIWEB, '_self');
             } else {
-                console.log('Normal Broker Call not supported', email)
+                console.log('Call Broker', email)
                 window.open(authURIBroker, '_self');
             }
-            //hide second option, not supported by SDK
-            //customSchemeLink.style.display = 'none'
         };
 
         //create Web2App Links
@@ -81,10 +83,20 @@
             createLink()
         });
 
+        resetButton = document.getElementById('resetButton');
+        resetButton.addEventListener('click', (event) => {
+            console.log('Reset Button Clicked')
+            window.open('web2app.html', '_self');
+        });
+
         let error = getError();
         let success = checkSuccess();
         let heading = document.getElementById('heading');
         let errorDetail = document.getElementById('errorDetail');
+        let loggedInForm = document.getElementById('loggedInForm');
+        let loginform = document.getElementById('loginform');
+
+        loggedInForm.style.display = 'none'
 
         //Flow repsonded with an error 
         if (error != null) {
@@ -93,7 +105,10 @@
             errorDetail.innerHTML = error + ' | ' + errorDetail.innerHTML
         } else if (success) {
             //do something meaningfull (i.e. change page) - mock
-            heading.textContent = 'Authorization SuccessFull'
+            heading.textContent = 'Login SuccessFull';
+
+            loggedInForm.removeAttribute("style");
+            loginform.style.display = 'none';
             //errorDetail.innerHTML = error
         } // leave unknown instead (site simply opened witouth parameters)
     </script>
