@@ -9,6 +9,7 @@
 
 <body>
     <h2 id="heading">Web2App Test</h2>
+    <p id="errorDetail"></p>
     <div>
         <label for="email">Account:</label>
         <input type="email" id="email" name="email">
@@ -25,9 +26,26 @@
             return 'other';
         };
 
-        const authorize = () => {
-
+        const checkSuccess = () => {
+            let query = document.location.search;
+            let params = new URLSearchParams(query);
+            if (params.has('state') && params.has('code')) {
+                console.log(params.get('Redirect with state: ' + params.get('state') + ' and code: ' + params.get('code')))
+                return true
+            }
+            return false
         }
+
+        const getError = () => {
+            let query = document.location.search;
+            let params = new URLSearchParams(query);
+            if (params.has('error')) {
+                console.log(params.get('error'))
+                console.log(params.get('error_description'))
+                return 'Error: ' + params.get('error') + ' Description: ' + params.get('error_description')
+            }
+            return null
+        };
 
         const createLink = () => {
             let os = platform();
@@ -38,10 +56,10 @@
             let httpsLink = document.getElementById('auth')
 
             // Simply hardcoded, given this is just for technical testing
-            let authURIGMX = 'https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&state=web2App&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            let authURIGMX = 'https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2App&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
             // Simply hardcoded, given this is just for technical testing
-            let authURIWEB = 'https://sso.web.de/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&state=web2App&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
-            let authURIBroker = 'https://broker.netID.de/authorize?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&state=web2App&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            let authURIWEB = 'https://sso.web.de/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2App&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            let authURIBroker = 'https://broker.netID.de/authorize?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2App&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
 
             if (getDomain == 'gmx.net') {
                 window.open(authURIGMX, '_self');
@@ -62,6 +80,22 @@
             console.log('Button Clicked')
             createLink()
         });
+
+        let error = getError();
+        let success = checkSuccess();
+        let heading = document.getElementById('heading');
+        let errorDetail = document.getElementById('errorDetail');
+
+        //Flow repsonded with an error 
+        if (error != null) {
+            //do something meaningfull (i.e. change page) - mock
+            heading.textContent = 'Authorization Error'
+            errorDetail.innerHTML = error + ' | ' + errorDetail.innerHTML
+        } else if (success) {
+            //do something meaningfull (i.e. change page) - mock
+            heading.textContent = 'Authorization SuccessFull'
+            //errorDetail.innerHTML = error
+        } // leave unknown instead (site simply opened witouth parameters)
     </script>
 </body>
 
