@@ -11,8 +11,8 @@
     <h2 id="heading">Web2App Test</h2>
     <p id="errorDetail"></p>
     <p>Not Authorized</p>
-    <a href="index.html" id="authGMX">Login with GMX (Web2App)</a> <br> <br>
-    <a href="index.html" id="authWEB">Login with WEB.DE (Web2App)</a> <br> <br>
+    <a href="" id="authGMX">Login with GMX (Web2App)</a> <br> <br>
+    <a href="" id="authWEB">Login with WEB.DE (Web2App)</a> <br> <br>
 
     <script>
         //In real deployment this should be handled server-side idealy
@@ -42,14 +42,14 @@
             let errorDetail = document.getElementById('errorDetail');
 
             // Simply hardcoded, given this is just for technical testing
-            let authURIGMX = '"https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&prompt=consent&state=7xJgE8QycVhLieY2XE9LSQ&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            let authURIGMX = 'https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&prompt=consent&state=7xJgE8QycVhLieY2XE9LSQ&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
             // Simply hardcoded, given this is just for technical testing
-            let authURIWEB = '"https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&prompt=consent&state=7xJgE8QycVhLieY2XE9LSQ&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            let authURIWEB = 'https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&prompt=consent&state=7xJgE8QycVhLieY2XE9LSQ&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
 
             errorDetail.innerText = 'User-Agent: ' + os;
 
             httpsLinkGMX.setAttribute('href', authURIGMX)
-            authURIWEB.setAttribute('href', authURIWEB)
+            httpsLinkWEB.setAttribute('href', authURIWEB)
             //hide second option, not supported by SDK
             //customSchemeLink.style.display = 'none'
         };
