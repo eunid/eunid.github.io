@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interstitial Page</title>
+</head>
+
+<body>
+    <h2 id="heading">Web2App Test</h2>
+    <p id="errorDetail"></p>
+    <p>Not Authorized</p>
+    <a href="index.html" id="authGMX">Login with GMX (Web2App)</a> <br> <br>
+    <a href="index.html" id="authWEB">Login with WEB.DE (Web2App)</a> <br> <br>
+
+    <script>
+        //In real deployment this should be handled server-side idealy
+        const platform = () => {
+            let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            console.log(userAgent);
+            if (/android/i.test(userAgent)) return 'Android';
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) return 'iOS';
+            return 'other';
+        };
+
+        const getError = () => {
+            let query = document.location.search;
+            let params = new URLSearchParams(query);
+            if (params.has('error')) {
+                console.log(params.get('error'))
+                console.log(params.get('error_description'))
+                return 'Error: ' + params.get('error') + ' Description: ' + params.get('error_description')
+            }
+            return null
+        };
+
+        const createLinks = () => {
+            let os = platform();
+            let httpsLinkGMX = document.getElementById('authGMX')
+            let httpsLinkWEB = document.getElementById('authWEB')
+            let errorDetail = document.getElementById('errorDetail');
+
+            // Simply hardcoded, given this is just for technical testing
+            let authURIGMX = '"https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&prompt=consent&state=7xJgE8QycVhLieY2XE9LSQ&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+            // Simply hardcoded, given this is just for technical testing
+            let authURIWEB = '"https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2FredirectApp&client_id=ec54097f-83f6-4bb1-86f3-f7c584c649cd&response_type=code&prompt=consent&state=7xJgE8QycVhLieY2XE9LSQ&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D'
+
+            errorDetail.innerText = 'User-Agent: ' + os;
+
+            httpsLinkGMX.setAttribute('href', authURIGMX)
+            authURIWEB.setAttribute('href', authURIWEB)
+            //hide second option, not supported by SDK
+            //customSchemeLink.style.display = 'none'
+        };
+
+        const checkSuccess = () => {
+            let query = document.location.search;
+            let params = new URLSearchParams(query);
+            if (params.has('state') && params.has('code')) {
+                console.log(params.get('Redirect with state: ' + params.get('state') + ' and code: ' + params.get('code')))
+                return true
+            }
+            return false
+        }
+
+        let error = getError();
+        let success = checkSuccess();
+        let heading = document.getElementById('heading');
+        let errorDetail = document.getElementById('errorDetail');
+
+        //create Web2App Links
+        createLinks();
+
+        //Flow repsonded with an error 
+        if (error != null) {
+            //do something meaningfull (i.e. change page) - mock
+            heading.textContent = 'Authorization Error'
+            errorDetail.innerHTML = error + ' | ' + errorDetail.innerHTML
+        } else if (success) {
+            //do something meaningfull (i.e. change page) - mock
+            heading.textContent = 'Authorization SuccessFull'
+            //errorDetail.innerHTML = error
+        } // leave unknown instead (site simply opened witouth parameters)
+    </script>
+</body>
+
+</html>
