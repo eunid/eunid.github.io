@@ -153,11 +153,11 @@
         } // leave unknown instead (site simply opened witouth parameters)
 
         if (!hasTouchScreen()) {
-            errorDetail.innerHTML = '<b>Demo only work on mobile devices</b>' + errorDetail.innerHTML
+            errorDetail.innerHTML = '<b>Demo only works on mobile devices</b>' + ' | ' + errorDetail.innerHTML
         }
 
         if (isFireFoxAndroid()) {
-            errorDetail.innerHTML = 'FireFox Web2App disabled (does not proactively use App flows)' + errorDetail.innerHTML
+            errorDetail.innerHTML = errorDetail.innerHTML + ' | ' + 'FireFox-Android Web2App disabled'
         }
     </script>
 </body>
