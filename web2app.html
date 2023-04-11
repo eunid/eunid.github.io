@@ -55,8 +55,16 @@
             return 'other';
         };
 
-        const isFireFoxMobile = () => {
-            return navigator.userAgent.match("FxiOS");
+        const isFireFoxAndroid = () => {
+            let isFireFox = false
+            if (hasTouchScreen()) {
+                const UA = navigator.userAgent
+                isFireFox =
+                    /\b(FireFox)\b/i.test(UA) &&
+                    /\b(Android)\b/i.test(UA)
+            }
+            return isFireFox;
+
         }
 
         const checkSuccess = () => {
@@ -94,11 +102,11 @@
             let authURIWEB = 'https://sso.web.de/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
             let authURIBroker = 'https://broker.netID.de/authorize?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
 
-            if (getDomain == 'gmx.net' && !isFireFoxMobile()) {
+            if (getDomain == 'gmx.net' && !isFireFoxAndroid()) {
                 window.open(authURIGMX, '_self');
-            } else if (getDomain == 'gmx.de' && !isFireFoxMobile()) {
+            } else if (getDomain == 'gmx.de' && !isFireFoxAndroid()) {
                 window.open(authURIGMX, '_self');
-            } else if (getDomain == 'web.de' && !isFireFoxMobile()) {
+            } else if (getDomain == 'web.de' && !isFireFoxAndroid()) {
                 window.open(authURIWEB, '_self');
             } else {
                 console.log('Call Broker', email)
@@ -148,7 +156,7 @@
             errorDetail.innerHTML = '<b>Demo only work on mobile devices</b>' + errorDetail.innerHTML
         }
 
-        if (isFireFoxMobile()) {
+        if (isFireFoxAndroid()) {
             errorDetail.innerHTML = 'FireFox Web2App disabled (does not proactively use App flows)' + errorDetail.innerHTML
         }
     </script>
