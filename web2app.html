@@ -5,19 +5,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web2App-Test-Page</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styles */
+        form {
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: #ffffff;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .form-element {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        /* Add a class for success messages */
+        .success-message {
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 15px;
+            color: #3c763d;
+        }
+
+        /* Add a class for error messages */
+        .error-message {
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 15px;
+            color: #a94442;
+        }
+
+        button:hover {
+            background-color: #34495e;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h2 id="heading">Web2App Test</h2>
-    <p id="errorDetail"></p>
-    <div id="loginform">
-        <label for="email">Account:</label>
-        <input type="email" id="email" name="email">
-        <button id="authButton">Login mit netID</button>
-    </div>
-    <div id="loggedInForm">
-        <label for="resetButton">Status zurücksetzen:</label>
-        <button id="resetButton">Reset</button>
+    <div class="container">
+        <h2 id="heading">Web2App Test</h2>
+        <p id="errorDetail" class="error-message hidden"></p>
+        <p id="successDetail" class="success-message hidden"></p>
+        <div id="loginform">
+            <label for="email">Account:</label>
+            <input type="email" id="email" name="email" class="form-element">
+            <button id="authButton" class="form-element">Login mit netID</button>
+        </div>
+        <div id="loggedInForm" class="hidden">
+            <label for="resetButton">Status zurücksetzen:</label>
+            <button id="resetButton">Reset</button>
+        </div>
     </div>
     </form>
     <script>
@@ -88,31 +187,63 @@
             return null
         };
 
+        const generateAuthURI = (domain, path, email) => {
+            const baseURI = 'https://AUTH_DOMAIN/AUTH_PATH?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D';
+            return baseURI.replace('AUTH_DOMAIN', domain).replace('AUTH_PATH', path) + '&login_hint=' + email;
+        };
+
         const createLink = () => {
-            let os = getPlatform();
-            let email = document.getElementById('email').value;
-            console.log(email);
-            let getDomain = email.substring(email.indexOf('@') + 1);
-            console.log(getDomain)
-            let httpsLink = document.getElementById('auth')
+            const email = document.getElementById('email').value;
+            const getDomain = email.substring(email.indexOf('@') + 1);
 
-            // Simply hardcoded, given this is just for technical testing
-            let authURIGMX = 'https://sso.gmx.net/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
-            // Simply hardcoded, given this is just for technical testing
-            let authURIWEB = 'https://sso.web.de/authorize-app2app?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
-            let authURIBroker = 'https://broker.netID.de/authorize?redirect_uri=https%3A%2F%2Feunid.github.io%2Fweb2app&client_id=73729a4c-9523-4da3-9a40-b99f1c046952&response_type=code&state=web2app&nonce=b5zydPHsFSrBRtp0I_xTJA&scope=openid&code_challenge=sEIVnvgdeGCxy7WxqsEkLJM1V6N3LXIsCgidxAGL638&code_challenge_method=S256&claims=%7B%22userinfo%22%3A%7B%22email%22%3A%7B%22essential%22%3Atrue%7D%2C%22email_verified%22%3A%7B%22essential%22%3Atrue%7D%7D%7D' + '&login_hint=' + email
+            const authURIs = {
+                'gmx.net': generateAuthURI('sso.gmx.net', 'authorize-app2app', email),
+                'gmx.de': generateAuthURI('sso.gmx.net', 'authorize-app2app', email),
+                'web.de': generateAuthURI('sso.web.de', 'authorize-app2app', email),
+                'default': generateAuthURI('broker.netID.de', 'authorize', email),
+            };
 
-            if (getDomain == 'gmx.net' && !isFireFoxAndroid()) {
-                window.open(authURIGMX, '_self');
-            } else if (getDomain == 'gmx.de' && !isFireFoxAndroid()) {
-                window.open(authURIGMX, '_self');
-            } else if (getDomain == 'web.de' && !isFireFoxAndroid()) {
-                window.open(authURIWEB, '_self');
-            } else {
-                console.log('Call Broker', email)
-                window.open(authURIBroker, '_self');
+            if (!isFireFoxAndroid()) {
+                const targetURI = authURIs[getDomain] || authURIs.default;
+                window.open(targetURI, '_self');
             }
         };
+
+        const hideErrorMessage = () => {
+            const errorDetail = document.getElementById('errorDetail');
+            errorDetail.classList.add('hidden');
+        };
+
+        const showErrorMessage = (message) => {
+            const errorDetail = document.getElementById('errorDetail');
+            errorDetail.textContent = message;
+            // toggle success - error display
+            errorDetail.classList.remove('hidden');
+            hideSuccessMessage();
+        };
+
+        const hideSuccessMessage = () => {
+            const successInfo = document.getElementById('successDetail');
+            successInfo.classList.add('hidden');
+        };
+
+        const showSuccessMessage = (message) => {
+            const successInfo = document.getElementById('successDetail');
+            successInfo.textContent = message;
+            successInfo.classList.remove('hidden');
+            hideErrorMessage();
+        };
+
+        function checkDeviceCompatibility() {
+            if (!hasTouchScreen()) {
+                showErrorMessage(`Demo only works on mobile devices | ${errorDetail.innerHTML}`);
+                return false;
+            } else if (isFireFoxAndroid()) {
+                showErrorMessage(`${errorDetail.innerHTML} | FireFox-Android Web2App disabled`);
+                return false;
+            }
+            return true;
+        }
 
         //create Web2App Links
         //createLinks();
@@ -130,35 +261,19 @@
 
         let error = getError();
         let success = checkSuccess();
-        let platform = getPlatform();
-        let heading = document.getElementById('heading');
-        let errorDetail = document.getElementById('errorDetail');
         let loggedInForm = document.getElementById('loggedInForm');
         let loginform = document.getElementById('loginform');
 
-        loggedInForm.style.display = 'none'
-
-        //Flow repsonded with an error 
-        if (error != null) {
-            //do something meaningfull (i.e. change page) - mock
-            heading.textContent = 'Authorization Error'
-            errorDetail.innerHTML = error + ' | ' + errorDetail.innerHTML
-        } else if (success) {
-            //do something meaningfull (i.e. change page) - mock
-            heading.textContent = 'Login SuccessFull';
-
-            loggedInForm.removeAttribute("style");
-            loginform.style.display = 'none';
-            //errorDetail.innerHTML = error
-        } // leave unknown instead (site simply opened witouth parameters)
-
-        if (!hasTouchScreen()) {
-            errorDetail.innerHTML = '<b>Demo only works on mobile devices</b>' + ' | ' + errorDetail.innerHTML
+        if (checkDeviceCompatibility()) {
+            if (error) {
+                showErrorMessage(`${error} | ${errorDetail.innerHTML}`);
+            } else if (success) {
+                loggedInForm.classList.remove('hidden');
+                loginform.classList.add('hidden');
+                showSuccessMessage('Login Successfull');
+            }
         }
 
-        if (isFireFoxAndroid()) {
-            errorDetail.innerHTML = errorDetail.innerHTML + ' | ' + 'FireFox-Android Web2App disabled'
-        }
     </script>
 </body>
 
