@@ -86,6 +86,17 @@
             color: #a94442;
         }
 
+        .info-box {
+            background-color: #e0f0ff;
+            border: 1px solid #4c9aff;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
         button:hover {
             background-color: #34495e;
         }
@@ -111,6 +122,7 @@
         <div id="loginform">
             <label for="email">Account:</label>
             <input type="email" id="email" name="email" class="form-element">
+            <p id="apDetail" class="info-box hidden"></p>
             <button id="authButton" class="form-element">Login mit netID</button>
         </div>
         <div id="loggedInForm" class="hidden">
@@ -245,8 +257,26 @@
             return true;
         }
 
-        //create Web2App Links
-        //createLinks();
+        const emailInput = document.getElementById('email');
+        const submitButton = document.getElementById('authButton');
+
+        emailInput.addEventListener('input', () => {
+            const email = emailInput.value;
+            const apDetail = document.getElementById('apDetail');
+            const getDomain = email.substring(email.indexOf('@') + 1);
+
+            if (getDomain === 'gmx.net' || getDomain === 'gmx.de') {
+                apDetail.classList.remove('hidden')
+                apDetail.textContent = 'Anmeldung mit ihrer GMX App';
+
+            } else if (getDomain === 'web.de') {
+                apDetail.classList.remove('hidden')
+                apDetail.textContent = 'Anmeldung mit ihrer WEB.DE App';
+            } else {
+                apDetail.classList.add('hidden')
+            }
+        });
+
         authButton = document.getElementById('authButton');
         authButton.addEventListener('click', (event) => {
             console.log('Button Clicked')
